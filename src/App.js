@@ -74,20 +74,26 @@ function App() {
 
         {/* Exercise: Display delete button, title, and author in a table. */}
         <table>
-          <tr>
-            <th />
-            <th>Title</th>
-            <th>Author</th>
-          </tr>
-          {courses.map(course => (
+          <thead>
             <tr>
-              <td>
-                <button onClick={() => deleteCourse(course.id)}>Delete</button>{" "}
-              </td>
-              <td>{course.title}</td>
-              <td>{course.author}</td>
+              <th />
+              <th>Title</th>
+              <th>Author</th>
             </tr>
-          ))}
+          </thead>
+          <tbody>
+            {courses.map(course => (
+              <tr key={course.id}>
+                <td>
+                  <button onClick={() => deleteCourse(course.id)}>
+                    Delete
+                  </button>{" "}
+                </td>
+                <td>{course.title}</td>
+                <td>{course.author}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </>
     );

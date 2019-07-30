@@ -1,0 +1,6 @@
+{
+  "courses": [
+    { "id": 1, "title": "JS Fundamentals", "author": "Cory House" },
+    { "id": 2, "title": "Advanced React", "author": "Cory House" }
+  ]
+}
