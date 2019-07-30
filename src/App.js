@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import * as api from "./api/courseApi";
 
 // 2 ways to declare React components:
 // 1. Class
@@ -10,13 +11,15 @@ function App() {
   const titleEl = useRef(null);
 
   // Declare state using the useState hook.
-  const [courses, setCourses] = useState([
-    { id: 1, title: "JS Fundamentals", author: "Cory House" },
-    { id: 2, title: "Advanced React", author: "Cory House" }
-  ]);
+  const [courses, setCourses] = useState([]);
 
   // This will hold the course that we're adding in state
   const [course, setCourse] = useState(newCourse);
+
+  // This runs after render
+  useEffect(() => {
+    api.getCourses().then(courses => setCourses(courses));
+  }, []);
 
   function deleteCourse(id) {
     const updatedCourses = courses.filter(course => course.id !== id);
@@ -27,9 +30,11 @@ function App() {
     event.preventDefault(); // stop browser from posting back
     // Use object spread to create a new array of courses
     // Add the new course entered on the form to the new courses array
-    setCourses([...courses, course]);
-    setCourse(newCourse);
-    titleEl.current.focus(); // Focus the title element after the form is submitted.
+    api.addCourse(course).then(savedCourse => {
+      setCourses([...courses, savedCourse]);
+      setCourse(newCourse);
+      titleEl.current.focus(); // Focus the title element after the form is submitted.
+    });
   }
 
   function onChange(event) {
