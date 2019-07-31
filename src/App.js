@@ -1,6 +1,7 @@
 import React from "react";
 import Home from "./Home";
 import Courses from "./Courses";
+import ManageCourse from "./ManageCourse";
 import PageNotFound from "./PageNotFound";
 import { Route, Switch, NavLink } from "react-router-dom";
 
@@ -21,6 +22,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/courses" component={Courses} />
+          <Route path="/course" component={ManageCourse} />
           <Route component={PageNotFound} />
         </Switch>
       </>
