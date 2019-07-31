@@ -2,13 +2,22 @@ import React from "react";
 import Home from "./Home";
 import Courses from "./Courses";
 import PageNotFound from "./PageNotFound";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, NavLink } from "react-router-dom";
 
 class App extends React.Component {
   render() {
+    const activeStyle = { color: "orange" };
     return (
       <>
-        Nav
+        <nav>
+          <NavLink activeStyle={activeStyle} to="/" exact>
+            Home
+          </NavLink>{" "}
+          |{" "}
+          <NavLink activeStyle={activeStyle} to="/courses">
+            Courses
+          </NavLink>
+        </nav>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/courses" component={Courses} />
