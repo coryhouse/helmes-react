@@ -27,7 +27,7 @@ function Courses() {
     return (
       <>
         {/* Exercise: Display delete button, title, and author in a table. */}
-        <table>
+        <table className="table">
           <thead>
             <tr>
               <th />
@@ -39,7 +39,10 @@ function Courses() {
             {courses.map(course => (
               <tr key={course.id}>
                 <td>
-                  <button onClick={() => deleteCourse(course.id)}>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteCourse(course.id)}
+                  >
                     Delete
                   </button>{" "}
                 </td>
