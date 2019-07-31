@@ -27,3 +27,16 @@ export function addCourse(course) {
       throw error;
     });
 }
+
+export async function deleteCourse(courseId) {
+  try {
+    const response = await fetch("http://localhost:3001/courses/" + courseId, {
+      method: "DELETE"
+    });
+    if (response.ok) return await response.json(); // return the response as json
+    throw new Error("Bad network response");
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

@@ -21,7 +21,8 @@ function App() {
     api.getCourses().then(courses => setCourses(courses));
   }, []);
 
-  function deleteCourse(id) {
+  async function deleteCourse(id) {
+    await api.deleteCourse(id);
     const updatedCourses = courses.filter(course => course.id !== id);
     setCourses(updatedCourses); // Updating state will cause React to re-render
   }
