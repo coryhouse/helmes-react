@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as api from "./api/courseApi";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as courseActions from "./redux/actions/courseActions";
 
 // 2 ways to declare React components:
 // 1. Class
 // 2. Function <- Prefer this. It's simpler. Easier to use
 
-function Courses() {
-  // Declare state using the useState hook.
-  const [courses, setCourses] = useState([]);
-
+function Courses(props) {
   // This runs after render
   useEffect(() => {
-    api.getCourses().then(courses => setCourses(courses));
-  }, []);
+    props.actions.loadCourses();
+  }, [props.actions]);
 
   async function deleteCourse(id) {
-    await api.deleteCourse(id);
-    const updatedCourses = courses.filter(course => course.id !== id);
-    setCourses(updatedCourses); // Updating state will cause React to re-render
+    // await api.deleteCourse(id);
+    // const updatedCourses = courses.filter(course => course.id !== id);
+    // setCourses(updatedCourses); // Updating state will cause React to re-render
   }
 
   function renderCourses() {
-    if (courses.length === 0) return <p> No courses.</p>;
+    if (props.courses.length === 0) return <p> No courses.</p>;
 
     return (
       <>
@@ -36,7 +36,7 @@ function Courses() {
             </tr>
           </thead>
           <tbody>
-            {courses.map(course => (
+            {props.courses.map(course => (
               <tr key={course.id}>
                 <td>
                   <button
@@ -65,4 +65,24 @@ function Courses() {
   );
 }
 
-export default Courses;
+// Get the courses data from the redux store
+function mapStateToProps(state) {
+  return {
+    courses: state.courses
+  };
+}
+
+// Expose all the actions in courseActions to the component above on props.
+// And bind those actions to dispatch for me.
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      loadCourses: bindActionCreators(courseActions.loadCourses, dispatch)
+    }
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Courses);
