@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 function Input(props) {
   return (
     <>
       <div>
-        <label htmlFor={props.id}>{props.label}</label>
+        {props.showLabel && <label htmlFor={props.id}>{props.label}</label>}
         <br />
         <input
           type="text"
@@ -18,5 +19,24 @@ function Input(props) {
     </>
   );
 }
+
+Input.defaultProps = {
+  // if showLabel isn't passed in on props, default to true
+  showLabel: true
+};
+
+Input.propTypes = {
+  /** The input element ID */
+  id: PropTypes.string.isRequired,
+
+  /** The inputs label */
+  label: PropTypes.string.isRequired,
+
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  showLabel: PropTypes.bool
+};
 
 export default Input;
