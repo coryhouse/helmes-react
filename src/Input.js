@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 function Input(props) {
   return (
     <>
-      <div>
+      <div className="form-group">
         {props.showLabel && <label htmlFor={props.id}>{props.label}</label>}
         <br />
         <input
+          className="form-control"
           type="text"
           id={props.id}
           name={props.name}
