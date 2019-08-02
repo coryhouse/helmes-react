@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as api from "./api/courseApi";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as courseActions from "./redux/actions/courseActions";
 
@@ -9,11 +9,19 @@ import * as courseActions from "./redux/actions/courseActions";
 // 1. Class
 // 2. Function <- Prefer this. It's simpler. Easier to use
 
+// Destructuring props within the function signature
+// Doing this shortens the calls below.
 function Courses(props) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Connect to Redux store via Hooks
+  const courses = useSelector(state => state.courses);
+  const dispatch = useDispatch();
+
   // This runs after render
   useEffect(() => {
-    props.actions.loadCourses();
-  }, [props.actions]);
+    dispatch(courseActions.loadCourses()).then(() => setIsLoading(false));
+  }, [dispatch]);
 
   async function deleteCourse(id) {
     // await api.deleteCourse(id);
@@ -22,7 +30,8 @@ function Courses(props) {
   }
 
   function renderCourses() {
-    if (props.courses.length === 0) return <p> No courses.</p>;
+    if (isLoading) return <p>Loading...</p>;
+    if (courses.length === 0) return <p> No courses.</p>;
 
     return (
       <>
@@ -36,7 +45,7 @@ function Courses(props) {
             </tr>
           </thead>
           <tbody>
-            {props.courses.map(course => (
+            {courses.map(course => (
               <tr key={course.id}>
                 <td>
                   <button
@@ -66,23 +75,31 @@ function Courses(props) {
 }
 
 // Get the courses data from the redux store
-function mapStateToProps(state) {
-  return {
-    courses: state.courses
-  };
-}
+// function mapStateToProps(state) {
+//   return {
+//     courses: state.courses
+//   };
+// }
 
 // Expose all the actions in courseActions to the component above on props.
 // And bind those actions to dispatch for me.
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: {
-      loadCourses: bindActionCreators(courseActions.loadCourses, dispatch)
-    }
-  };
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     actions: {
+//       loadCourses: bindActionCreators(courseActions.loadCourses, dispatch)
+//     }
+//   };
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Courses);
+// Object form of mapDispatchToProps
+// This is automatically bound to dispatch
+// const mapDispatchToProps = {
+//   loadCourses: courseActions.loadCourses
+// };
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(Courses);
+
+export default Courses;

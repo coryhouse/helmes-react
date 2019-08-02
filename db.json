@@ -14,6 +14,21 @@
       "id": 3,
       "title": "Python",
       "author": "Bob"
+    },
+    {
+      "id": 4,
+      "title": "C#",
+      "author": "Cory"
+    },
+    {
+      "id": 7,
+      "title": "MongoDB",
+      "author": "Cory"
+    },
+    {
+      "id": 8,
+      "title": "Cold Fusion",
+      "author": "Cory"
     }
   ]
 }
